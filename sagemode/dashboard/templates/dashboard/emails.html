@@ -1,0 +1,16 @@
+<h1>All emails will come here</h1>
+{% for email in all_emails_list %}
+    {{ email.sagemode_user }}
+    {{ break }}
+{% endfor %}
+
+<br>
+{% for email in all_emails_list %}
+    {{ email.from_email }} {{ email.from_warmup_emails_sent }}
+    <br>
+{% endfor %}
+
+<form action="{% url 'dashboard:add_emails' %}">
+    <input type="submit" value="Add Email" />
+</form>
+
