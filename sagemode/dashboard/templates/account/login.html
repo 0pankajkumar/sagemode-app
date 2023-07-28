@@ -1,46 +1,67 @@
-{% extends "account/base.html" %}
+{% extends "dashboard/base.html" %} {% load i18n %} {% load account socialaccount
+%} {% block head_title %}{% trans "Sign In" %}{% endblock %} {% block content %}
 
-{% load i18n %}
-{% load account socialaccount %}
+{% load widget_tweaks %}
 
-{% block head_title %}{% trans "Sign In" %}{% endblock %}
+<section class="columns is-centered">
+    <div class="column is-half is-narrow is-offset-one-quarter">
+        <div class="box" style="width: 350px;">
+            <h2 class="title is-4">{% trans "Log In" %}</h2>
+            <form action="{% url 'account_login' %}" method="POST" class="login">
+              {% csrf_token %}
+              {{ form.non_field_errors | safe }}
 
-{% block content %}
+              <div class="field block">
+                {{ form.login.errors | safe }}
+                <div class="control has-icons-left">
+                  {% render_field form.login placeholder="Email" id="id_login" name="login" type="email" autocomplete="email" required=True maxlength="320" class="input " %}
+                  <span class="icon is-medium is-left">
+                    <i class="fa fa-envelope"></i>
+                  </span>
+                </div>
+              </div>
 
-<h1>Cutomized !!{% trans "Sign In" %}</h1>
+              <div class="field block">
+                {{ form.password.errors | safe }}
+                <div class="control has-icons-left">
+                  {% render_field form.password id="id_password" name="password" placeholder="Password" type="password" autocomplete="current-password" required="True" class="input " %}
+                  <span class="icon is-medium is-left">
+                    <i class="fa fa-lock"></i>
+                  </span>
+                </div>
+              </div>
 
-{% get_providers as socialaccount_providers %}
+              <div class="field block">
+                <label for="" class="checkbox">
+                  <input type="checkbox" name="remember" id="id_remember" />
+                  Remember me
+                </label>
+              </div>
 
-{% if socialaccount_providers %}
-<p>{% blocktrans with site.name as site_name %}Please sign in with one
-of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
-for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
+              {% if redirect_field_value %}
+              <input
+                type="hidden"
+                name="{{ redirect_field_name }}"
+                value="{{ redirect_field_value }}"
+              />
+              {% endif %}
 
-<div class="socialaccount_ballot">
+              <div class="field block">
+                <button class="button is-success primaryAction block" type="submit">Login</button><br>
+                <small class="block">
+                  <a class="secondaryAction has-text-dark" href="{% url 'account_reset_password' %}">
+                    {% trans "Forgot Password?" %}
+                  </a>
+                </small>
 
-  <ul class="socialaccount_providers">
-    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-  </ul>
-
-  <div class="login-or">{% trans 'or' %}</div>
-
-</div>
-
-{% include "socialaccount/snippets/login_extra.html" %}
-
-{% else %}
-<p>{% blocktrans %}If you have not created an account yet, then please
-<a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
-{% endif %}
-
-<form class="login" method="POST" action="{% url 'account_login' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
-  <button class="primaryAction" type="submit">{% trans "Sign In" %}</button>
-</form>
-
+                <br />
+                <a class="block has-text-dark" href="{{ signup_url }}">
+                  <small>Don't have an account?</small>
+                  <span class="has-text-weight-bold">Sign Up</span>
+                </a>
+              </div>
+            </form>
+        </div>
+    </div>
+</section>
 {% endblock %}

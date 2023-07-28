@@ -56,3 +56,6 @@ def add_emails(request):
         form = AddEmailsForm()
         return render(request, "dashboard/add_emails.html", {"form": form})
 
+
+def dummy_view(request):
+    return render(request, "dashboard/dummy.html")

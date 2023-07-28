@@ -10,7 +10,7 @@ app_name = 'dashboard'
 
 urlpatterns = [
     path("", views.index, name="index"),
-    # path("emails", views.emails, name="emails")
     path("emails/", views.EmailsView.as_view(), name="emails"),
     path("emails/add/", views.add_emails, name="add_emails"),
+    path("dummy/", views.dummy_view, name="dummy_view"),
 ]
