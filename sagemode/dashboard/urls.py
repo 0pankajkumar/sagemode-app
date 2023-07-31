@@ -13,4 +13,6 @@ urlpatterns = [
     path("emails/", views.EmailsView.as_view(), name="emails"),
     path("emails/add/", views.add_emails, name="add_emails"),
     path("dummy/", views.dummy_view, name="dummy_view"),
+    path("campaigns/", views.campaigns_view, name="campaigns_view"),
+    path("settings/", views.settings_view, name="settings_view"),
 ]

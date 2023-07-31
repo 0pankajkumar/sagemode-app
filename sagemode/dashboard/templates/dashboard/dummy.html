@@ -2,13 +2,105 @@
 
 {% block content %}
 
-    <div class="columns is-centered">
-        <div class="column is-half ">
-            <div class="box">
-                I'm in a box.
-            </div>
-        </div>
+<div class="columns">
+    <div class="column is-1 box" style="min-height:82vh">
+        <aside class="menu">
+            <ul class="menu-list">
+                <li><a>Accounts</a></li>
+                <li><a>Campaigns</a></li>
+                <li><a>Settings</a></li>
+            </ul>
+        </aside>
     </div>
+    <div class="column box">
+        <section class="columns is-centered">
+            <div class="column is-half is-narrow ">
+                <div class="box" style="min-width: 350px;">
 
+                    <form action="{% url 'dashboard:add_emails' %}" method="post">
+                        {% csrf_token %}
+                        {{ form.non_field_errors | safe }}
+
+                        <div class="columns">
+                            <div class="column is-four-fifths">
+                                <div class="field block">
+                                    {{ form.from_email.errors | safe }}
+                                    <div class="control has-icons-left">
+                                      {% render_field form.from_email placeholder="Email" id="id_from_email" name="from_email" type="email" autocomplete="email" required=True maxlength="320" class="input " %}
+                                      <span class="icon is-medium is-left">
+                                        <i class="fa fa-envelope"></i>
+                                      </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="columns">
+                            <div class="column is-four-fifths">
+                                <div class="field block">
+                                    {{ form.from_password.errors | safe }}
+                                    <div class="control has-icons-left">
+                                      {% render_field form.from_password id="id_from_password" name="from_password" placeholder="Password" type="password" autocomplete="current-password" required="True" class="input " %}
+                                      <span class="icon is-medium is-left">
+                                        <i class="fa fa-lock"></i>
+                                      </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="columns">
+                            <div class="column is-four-fifths">
+                                <div class="field block">
+                                    {{ form.from_imap_address.errors | safe }}
+                                    <div class="control has-icons-left">
+                                      {% render_field form.from_imap_address id="id_from_imap_address" name="from_imap_address" placeholder="imap.website.com" type="text" maxlength="200" required="True" class="input " %}
+                                      <span class="icon is-medium is-left">
+                                        <i class="fa fa-lock"></i>
+                                      </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="field block">
+                                    {{ form.from_imap_port.errors | safe }}
+                                    <div class="control has-icons-left">
+                                      {% render_field form.from_imap_port id="id_from_imap_port" name="from_imap_port" placeholder="143" type="number" min="0" required="True" class="input " %}
+                                      <span class="icon is-medium is-left">
+                                        <i class="fa fa-lock"></i>
+                                      </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="columns">
+                            <div class="column ">
+                                <div class="field block">
+                                    {{ form.from_smtp_address.errors | safe }}
+                                    <div class="control has-icons-left">
+                                      {% render_field form.from_smtp_address id="id_from_smtp_address" name="from_smtp_address" placeholder="smtp.website.com" type="text" required="True" class="input " %}
+                                      <span class="icon is-medium is-left">
+                                        <i class="fa fa-lock"></i>
+                                      </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="field block">
+                                    {{ form.from_smtp_port.errors | safe }}
+                                    <label for="id_from_smtp_port">Port</label>
+                                    {% render_field form.from_smtp_port id="id_from_smtp_port" name="from_smtp_port" placeholder="587" type="number" min="0" required="True" class="input " %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
 
 {% endblock %}

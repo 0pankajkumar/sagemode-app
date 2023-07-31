@@ -1,62 +1,112 @@
 {% load i18n %}
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block head_title %}{% endblock %}</title>
     {% block extra_head %}
     {% endblock %}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
-  </head>
-  <body>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'dashboard/style.css' %}">
+
+</head>
+<body>
 
 
-
-
-    <!-- Main container -->
-  <nav class="level px-3 py-4">
+<!-- Main container -->
+<nav class="level px-3 py-4">
     <!-- Left side -->
     <div class="level-left">
-      <div class="level-item">
-        <h1 class="is-size-4 has-text-weight-semibold">sage<span class="has-text-primary">Mode</span></h1>
-      </div>
+        <div class="level-item">
+            <h1 class="is-size-4 has-text-weight-semibold">sage<span class="has-text-primary">Mode</span></h1>
+        </div>
     </div>
 
     <!-- Right side -->
     <div class="level-right">
-      <a href="https://sagemode.io" style="color:#4a4a4a">
-        <span class="icon">
-          <i class="fa fa-home fa-lg"></i>
-        </span>
-      </a>
+        {% if user.is_authenticated %}
+        <form method="post" action="/account/logout/">
+          {% csrf_token %}
+            <a href="javascript:;" onclick="parentNode.submit();">
+                <span class="icon">
+                  <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                </span>
+            </a>
+        </form>
+        {% endif %}
     </div>
-  </nav>
+</nav>
 
 
+{% if messages %}
+<div class="notification">
+    <ul>
+        {% for message in messages %}
+        <li>{{message}}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
 
 
+{% block body %}
+
+{% block content %}
+{% endblock %}
+
+{% if user.is_authenticated %}
+<div class="columns">
+    <div class="column is-1 box" style="min-height:82vh">
+        <aside class="menu">
+            <ul class="menu-list">
+                <li>
+                    <a class="side-nav-icons" href="{% url 'dashboard:emails' %}">
+                    <span class="icon-text">
+                      <span class="icon">
+                        <i class="fa fa-envelope fa-1x"></i>
+                      </span>
+                    </span>
+                    </a>
+                </li>
+                <li>
+                    <a  href="{% url 'dashboard:campaigns_view' %}">
+                    <span class="icon-text">
+                      <span class="icon">
+                        <i class="fa fa-paper-plane fa-1x"></i>
+                      </span>
+                    </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'dashboard:settings_view' %}">
+                    <span class="icon-text">
+                      <span class="icon">
+                        <i class="fa fa-gear fa-1x"></i>
+                      </span>
+                    </span>
+                    </a>
+                </li>
+            </ul>
+
+        </aside>
+    </div>
+    <div class="column">
+        <div class="px-4">
+            {% block app_content %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+{% endif %}
 
 
-    {% block body %}
-     {% if messages %}
-      <div>
-        <strong>{% trans "Messages:" %}</strong>
-        <ul>
-          {% for message in messages %}
-          <li>{{message}}</li>
-          {% endfor %}
-        </ul>
-      </div>
-      {% endif %}
+{% endblock %}
 
-    {% block content %}
-    {% endblock %}
-
-    {% endblock %}
-
-    {% block extra_body %}
-    {% endblock %}
-  </body>
+{% block extra_body %}
+{% endblock %}
+</body>
 </html>

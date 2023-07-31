@@ -59,3 +59,11 @@ def add_emails(request):
 
 def dummy_view(request):
     return render(request, "dashboard/dummy.html")
+
+
+def campaigns_view(request):
+    return render(request, "dashboard/campaigns.html")
+
+
+def settings_view(request):
+    return render(request, "dashboard/settings.html")
