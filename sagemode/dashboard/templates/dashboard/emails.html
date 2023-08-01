@@ -18,8 +18,8 @@
                 <form action="{% url 'dashboard:add_emails' %}">
                     <div class="control">
                         <button type="submit" class="button is-primary is-outlined box" value="Add Email">
-                            <span class="icon is-medium">
-                                <i class="fa fa-chain"></i>
+                            <span class="icon">
+                                <ion-icon name="add-outline"></ion-icon>
                             </span>
                             <span>Add New</span>
                         </button>
@@ -32,7 +32,18 @@
     {% for email in all_emails_list %}
         <div class="box">
             <div class="py-2">
-                <span class="has-text-black has-text-weight-semibold">{{ email.from_email }}</span> {{ email.from_warmup_emails_sent }}
+                <div class="columns">
+                    <div class="column">
+                        <span class="has-text-black has-text-weight-semibold">{{ email.from_email }}</span>
+                    </div>
+
+                    <div class="column">
+                        <span class="has-tooltip-arrow has-tooltip-right" data-tooltip="Warmup emails sent">
+                            <ion-icon name="rocket-outline"></ion-icon> {{ email.from_warmup_emails_sent }}
+                        </span>
+                    </div>
+                </div>
+
             </div>
         </div>
     {% endfor %}

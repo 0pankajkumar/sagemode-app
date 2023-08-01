@@ -9,7 +9,7 @@
     {% endblock %}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@creativebulma/bulma-tooltip@1.2.0/dist/bulma-tooltip.min.css">
     {% load static %}
     <link rel="stylesheet" href="{% static 'dashboard/style.css' %}">
 
@@ -22,7 +22,12 @@
     <!-- Left side -->
     <div class="level-left">
         <div class="level-item">
-            <h1 class="is-size-4 has-text-weight-semibold">sage<span class="has-text-primary">Mode</span></h1>
+            <a href="{% url 'dashboard:emails' %}">
+                <h1 class="is-size-4 has-text-weight-semibold has-text-black">
+                    sage<span class="has-text-primary">Mode</span>
+                </h1>
+            </a>
+
         </div>
     </div>
 
@@ -31,9 +36,9 @@
         {% if user.is_authenticated %}
         <form method="post" action="/account/logout/">
           {% csrf_token %}
-            <a href="javascript:;" onclick="parentNode.submit();">
+            <a class="has-tooltip-arrow has-tooltip-bottom" data-tooltip="Log Out   " href="javascript:;" onclick="parentNode.submit();">
                 <span class="icon">
-                  <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                  <ion-icon name="log-out-outline" size="large" style="color:black"></ion-icon>
                 </span>
             </a>
         </form>
@@ -64,28 +69,28 @@
         <aside class="menu">
             <ul class="menu-list">
                 <li>
-                    <a class="side-nav-icons" href="{% url 'dashboard:emails' %}">
+                    <a class="has-tooltip-arrow has-tooltip-right" data-tooltip="Email Accounts" href="{% url 'dashboard:emails' %}">
                     <span class="icon-text">
                       <span class="icon">
-                        <i class="fa fa-envelope fa-1x"></i>
+                        <ion-icon name="mail" ></ion-icon>
                       </span>
                     </span>
                     </a>
                 </li>
                 <li>
-                    <a  href="{% url 'dashboard:campaigns_view' %}">
+                    <a class="has-tooltip-arrow has-tooltip-right" data-tooltip="Campaigns" href="{% url 'dashboard:campaigns_view' %}">
                     <span class="icon-text">
                       <span class="icon">
-                        <i class="fa fa-paper-plane fa-1x"></i>
+                        <ion-icon name="send" ></ion-icon>
                       </span>
                     </span>
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'dashboard:settings_view' %}">
+                    <a class="has-tooltip-arrow has-tooltip-right" data-tooltip="Settings" href="{% url 'dashboard:settings_view' %}">
                     <span class="icon-text">
                       <span class="icon">
-                        <i class="fa fa-gear fa-1x"></i>
+                        <ion-icon name="settings" ></ion-icon>
                       </span>
                     </span>
                     </a>
@@ -108,5 +113,8 @@
 
 {% block extra_body %}
 {% endblock %}
+
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>
