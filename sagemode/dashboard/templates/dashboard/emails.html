@@ -34,13 +34,26 @@
             <div class="py-2">
                 <div class="columns">
                     <div class="column">
-                        <span class="has-text-black has-text-weight-semibold">{{ email.from_email }}</span>
+                        <a href="{% url 'dashboard:show_email_details' email.pk %}" class="has-text-black has-text-weight-semibold">
+                            {{ email.from_email }}
+                        </a>
                     </div>
-
                     <div class="column">
-                        <span class="has-tooltip-arrow has-tooltip-right" data-tooltip="Warmup emails sent">
-                            <ion-icon name="rocket-outline"></ion-icon> {{ email.from_warmup_emails_sent }}
-                        </span>
+                        <div class="columns">
+                            <span class="column has-tooltip-arrow has-tooltip-right" data-tooltip="Warmup emails sent">
+                                <ion-icon name="rocket-outline"></ion-icon> {{ email.from_warmup_emails_sent }}
+                            </span>
+                            <form class="column" method="POST" action="{% url 'dashboard:delete_email_view' email.pk %}">
+                                {% csrf_token %}
+                                <button type="submit">
+
+                                        Delete
+
+                                </button>
+
+                            </form>
+                        </div>
+
                     </div>
                 </div>
 

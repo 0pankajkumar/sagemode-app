@@ -1,10 +1,13 @@
 from allauth.account.decorators import verified_email_required
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import generic
+from django.views.generic import DeleteView
 
 from .forms import AddEmailsForm
 from .models import EmailAccounts
@@ -34,9 +37,6 @@ class EmailsView(generic.ListView):
     context_object_name = "all_emails_list"
 
     def get_queryset(self):
-        # print(self.request)
-        # for attr, value in self.request.__dict__.items():
-        #     print(attr, value)
         return EmailAccounts.objects.filter(sagemode_user=self.request.user)
 
 
@@ -57,13 +57,59 @@ def add_emails(request):
         return render(request, "dashboard/add_emails.html", {"form": form})
 
 
+@login_required()
+def show_email_details_view(request, pk):
+    query_results = EmailAccounts.objects.filter(sagemode_user=request.user, pk=pk).values()
+    form = None
+
+    for email_value in query_results:
+        form = AddEmailsForm(initial={
+            "from_email": email_value["from_email"],
+            "from_password": email_value["from_password"],
+            "from_imap_address": email_value["from_imap_address"],
+            "from_imap_port": email_value["from_imap_port"],
+            "from_smtp_address": email_value["from_smtp_address"],
+            "from_smtp_port": email_value["from_smtp_port"],
+        })
+        break
+
+    return render(request, "dashboard/show_email_details.html", {"form": form, "email_details": query_results})
+
+
+# @login_required()
+# def delete_email_view(request, pk):
+#     # email_to_be_deleted = get_object_or_404(EmailAccounts, pk=pk)
+#     # url = reverse('emails')
+#     # return HttpResponseRedirect(url)
+#     # if request.method == "POST":
+#     #     email_to_be_deleted.delete()
+#     #     print(f"{pk} deleted")
+#     #     url = reverse('emails')
+#     #     return HttpResponseRedirect(url)
+#     return HttpResponseRedirect(reverse("delete_email_view"))
+#     # return render(request, "dashboard/emails.html")
+
+
+@method_decorator(login_required, name="dispatch")
+class DeleteEmailView(DeleteView):
+    model = EmailAccounts
+    context_object_name = 'email'
+    success_url = reverse_lazy('dashboard:emails')
+
+    def form_valid(self, form):
+        messages.success(self.request, "The email account was deleted successfully.")
+        return super(DeleteEmailView, self).form_valid(form)
+
+
 def dummy_view(request):
     return render(request, "dashboard/dummy.html")
 
 
+@login_required()
 def campaigns_view(request):
     return render(request, "dashboard/campaigns.html")
 
 
+@login_required()
 def settings_view(request):
     return render(request, "dashboard/settings.html")

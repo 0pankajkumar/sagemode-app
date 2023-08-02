@@ -1,0 +1,17 @@
+{% extends "dashboard/base.html" %}
+
+{% block app_content %}
+
+{% load bulma_tags %}
+
+<a href="{% url 'dashboard:emails' %}">Back</a>
+<form action="/url/to/submit/" method="post">
+   {% csrf_token %}
+   {{ form|bulma }}
+   <div class="field">
+     <button type="submit" class="button is-primary">Update</button>
+   </div>
+   <input type="hidden" name="next" value=""/>
+</form>
+
+{% endblock %}
