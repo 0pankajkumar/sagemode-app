@@ -9,7 +9,7 @@ app_name = 'dashboard'
 # ]
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("", views.EmailsView.as_view(), name="emails"),
     path("emails/", views.EmailsView.as_view(), name="emails"),
     path("emails/add/", views.add_emails, name="add_emails"),
     path("emails/<uuid:pk>/", views.show_email_details_view, name="show_email_details"),

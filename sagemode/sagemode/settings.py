@@ -83,7 +83,7 @@ AUTHENTICATION_BACKENDS = [
 SITE_ID = 1
 
 LOGIN_URL = "/account/login/"
-LOGIN_REDIRECT_URL = '/app/emails'
+LOGIN_REDIRECT_URL = '/emails'
 ACCOUNT_LOGOUT_REDIRECT_URL = "/account/login/"
 
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
