@@ -41,7 +41,7 @@
                     <div class="column">
                         <div class="columns">
                             <span class="column has-tooltip-arrow has-tooltip-right" data-tooltip="Warmup emails sent">
-                                <ion-icon name="rocket-outline"></ion-icon> {{ email.from_warmup_emails_sent }}
+                                <ion-icon name="rocket-outline"></ion-icon> {{ email.from_warmup_emails_sent_per_week }}
                             </span>
                             <form class="column" method="POST" action="{% url 'dashboard:delete_email_view' email.pk %}">
                                 {% csrf_token %}

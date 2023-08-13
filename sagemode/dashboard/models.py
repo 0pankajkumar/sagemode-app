@@ -1,4 +1,5 @@
 import uuid
+from datetime import datetime
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -18,7 +19,6 @@ class EmailAccounts(models.Model):
     from_imap_port = models.PositiveIntegerField()
     from_smtp_address = models.CharField(max_length=200)
     from_smtp_port = models.PositiveIntegerField()
-    from_warmup_emails_sent = models.PositiveIntegerField(default=0)
-
-    # def __str__(self):
-    #     return self.from_email
+    from_warmup_emails_sent_per_week = models.PositiveIntegerField(default=0)  # per week
+    from_warmup_emails_to_be_sent_today = models.PositiveIntegerField(default=0)  # per day
+    from_warmup_email_to_be_sent_time = models.DateTimeField(default=datetime.now())  # per day
