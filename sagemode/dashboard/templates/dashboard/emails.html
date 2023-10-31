@@ -13,6 +13,7 @@
         </div>
 
         <!-- Right side -->
+        {% if all_emails_list|length > 0 %}
         <div class="level-right">
             <div class="level-item">
                 <form action="{% url 'dashboard:add_emails' %}">
@@ -27,7 +28,23 @@
                 </form>
             </div>
         </div>
+        {% endif %}
     </div>
+
+    {% if all_emails_list|length == 0 %}
+        <div class="level-item">
+                <form action="{% url 'dashboard:add_emails' %}">
+                    <div class="control">
+                        <button type="submit" class="button is-primary is-outlined box" value="Add Email">
+                            <span class="icon">
+                                <ion-icon name="add-outline"></ion-icon>
+                            </span>
+                            <span>Add New</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+    {% endif %}
 
     {% for email in all_emails_list %}
         <div class="box">

@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import EmailAccounts
+from .models import EmailAccount, Campaign, CampaignEmail
 
 # Register your models here.
-admin.site.register(EmailAccounts)
+admin.site.register(EmailAccount)
+admin.site.register(Campaign)
+admin.site.register(CampaignEmail)

@@ -17,5 +17,7 @@ urlpatterns = [
     path("emails/delete/<uuid:pk>/", views.DeleteEmailView.as_view(), name="delete_email_view"),
     path("dummy/", views.dummy_view, name="dummy_view"),
     path("campaigns/", views.campaigns_view, name="campaigns_view"),
+    path("campaigns/compose/", views.campaigns_compose_view, name="campaigns_compose_view"),
+    path("campaigns/settings", views.campaigns_settings_view, name="campaigns_settings_view"),
     path("settings/", views.settings_view, name="settings_view"),
 ]

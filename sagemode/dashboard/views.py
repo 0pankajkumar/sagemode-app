@@ -10,7 +10,7 @@ from django.views import generic
 from django.views.generic import DeleteView
 
 from .forms import AddEmailsForm
-from .models import EmailAccounts
+from .models import EmailAccount
 
 
 # @login_required()
@@ -37,7 +37,7 @@ class EmailsView(generic.ListView):
     context_object_name = "all_emails_list"
 
     def get_queryset(self):
-        return EmailAccounts.objects.filter(sagemode_user=self.request.user)
+        return EmailAccount.objects.filter(sagemode_user=self.request.user)
 
 
 @login_required
@@ -59,7 +59,7 @@ def add_emails(request):
 
 @login_required()
 def show_email_details_view(request, pk):
-    query_results = EmailAccounts.objects.filter(sagemode_user=request.user, pk=pk).values()
+    query_results = EmailAccount.objects.filter(sagemode_user=request.user, pk=pk).values()
     form = None
 
     for email_value in query_results:
@@ -78,7 +78,7 @@ def show_email_details_view(request, pk):
 
 # @login_required()
 # def delete_email_view(request, pk):
-#     # email_to_be_deleted = get_object_or_404(EmailAccounts, pk=pk)
+#     # email_to_be_deleted = get_object_or_404(EmailAccount, pk=pk)
 #     # url = reverse('emails')
 #     # return HttpResponseRedirect(url)
 #     # if request.method == "POST":
@@ -92,7 +92,7 @@ def show_email_details_view(request, pk):
 
 @method_decorator(login_required, name="dispatch")
 class DeleteEmailView(DeleteView):
-    model = EmailAccounts
+    model = EmailAccount
     context_object_name = 'email'
     success_url = reverse_lazy('dashboard:emails')
 
@@ -107,7 +107,17 @@ def dummy_view(request):
 
 @login_required()
 def campaigns_view(request):
-    return render(request, "dashboard/campaigns.html")
+    return render(request, "dashboard/campaigns_old.html")
+
+
+@login_required()
+def campaigns_compose_view(request):
+    return render(request, "dashboard/campaigns_compose.html")
+
+
+@login_required()
+def campaigns_settings_view(request):
+    return render(request, "dashboard/campaigns_settings.html")
 
 
 @login_required()
